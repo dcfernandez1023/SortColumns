@@ -5,6 +5,32 @@ public class SortColumns {
 
     public List<Integer> minDeletionSize(String[] arr) {
         List<Integer> deletionList = new ArrayList<Integer>();
+        int elementLength = arr[0].length();
+        for(int col = 0; col < elementLength; col++) {
+            int ascii = 0;
+            for(int i = 0; i < arr.length; i++) {
+                String element = arr[i];
+                if(element.length() != elementLength) {
+                    deletionList.add(-1);
+                    return deletionList;
+                }
+                else if(ascii <= (int) element.charAt(col)) {
+                    ascii = (int) element.charAt(col);
+                }
+                else {
+                    ascii = (int) element.charAt(col);
+                    if(!deletionList.contains(col)) {
+                        deletionList.add(col);
+                    }
+                }
+            }
+        }
+        return deletionList;
+    }
+
+    /*
+    public List<Integer> minDeletionSize(String[] arr) {
+        List<Integer> deletionList = new ArrayList<Integer>();
         boolean searching = true;
         boolean firstIteration = true;
         int ascii = 0;
@@ -47,9 +73,11 @@ public class SortColumns {
         return deletionList;
     }
 
+    */
+
     public static void main(String args[]) {
         SortColumns sc = new SortColumns();
-        String[] arr = {"cba", "daf", "ghi"};
+        String[] arr = {"zyx","wvu","tsr"};
         System.out.println(sc.minDeletionSize(arr));
     }
 }
