@@ -1,8 +1,16 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class SortColumns {
 
+    /*
+        * params:
+            * String[] arr
+        * description: determines which columns in the array are not in alphabetical order
+        * return: List<Integer>
+    */
     public List<Integer> minDeletionSize(String[] arr) {
         List<Integer> deletionList = new ArrayList<Integer>();
         int elementLength = arr[0].length();
@@ -29,55 +37,60 @@ public class SortColumns {
     }
 
     /*
-    public List<Integer> minDeletionSize(String[] arr) {
-        List<Integer> deletionList = new ArrayList<Integer>();
-        boolean searching = true;
-        boolean firstIteration = true;
-        int ascii = 0;
-        int length = 0;
-        int i = 0;
-        int n = 0;
-        while(searching) {
-            if(firstIteration) {
-                ascii = arr[0].charAt(0);
-                length = arr[0].length();
-                firstIteration = false;
-                continue;
+        * params: none
+        * description: gets array inputs from user
+        * return: String[]
+    */
+    public String[] getUserInputs() {
+        ArrayList <String> inputs = new ArrayList <String>();
+        Scanner s = new Scanner(System.in);
+        boolean gettingInputs = true;
+        while(gettingInputs) {
+            System.out.println("Current array: " + inputs.toString());
+            System.out.println("Enter a string to be added to the array, or enter '-1' to use the current array");
+            String input = s.next();
+            if(input.equals("-1")) {
+                gettingInputs = false;
             }
-            if(arr[i].length() != length) {
-                deletionList.add(-1);
-                return deletionList;
-            }
-            if(ascii <= (int) arr[i].charAt(n)) {
-                ascii = arr[i].charAt(n);
+            else if(isAlphabetical(input)) {
+                inputs.add(input);
             }
             else {
-                ascii = arr[i].charAt(n);
-                deletionList.add(n);
-                i = 0;
-                n++;
-            }
-            if(i == arr.length - 1) {
-                if(n == arr[i].length() - 1) {
-                    searching = false;
-                }
-                else {
-                    i = 0;
-                    n++;
-                }
-            }
-            else {
-                i++;
+                System.out.println("Input must only contain alphabetical characters. Try again.");
             }
         }
-        return deletionList;
+       String[] arrInputs = new String[inputs.size()];
+        for(int i = 0; i < arrInputs.length; i++) {
+            arrInputs[i] = inputs.get(i);
+        }
+        if(arrInputs.length == 0) {
+            arrInputs = new String[1];
+            arrInputs[0] = "";
+        }
+        return arrInputs;
     }
 
+    /*
+        * params:
+            * String input - input from the user
+        * description: determines whether or not string is an alphabetical character or not
+        * return: boolean
     */
+    private boolean isAlphabetical(String input) {
+        char[] chars = input.toCharArray();
+        for (char c : chars) {
+            if(!Character.isLetter(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String args[]) {
         SortColumns sc = new SortColumns();
-        String[] arr = {"zyx","wvu","tsr"};
-        System.out.println(sc.minDeletionSize(arr));
+        System.out.println("~~ SORT COLUMNS ~~");
+        String[] arr = sc.getUserInputs();
+        System.out.println("Your inputs: " + Arrays.toString(arr));
+        System.out.println("Result: " + sc.minDeletionSize(arr));
     }
 }
